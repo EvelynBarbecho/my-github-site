@@ -29,4 +29,91 @@
       <a href="https://github.com/[EvelynBarbecho]">[Your Username]</a>
     </p>
   </body>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark/Light Mode Demo</title>
+
+  <style>
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #333333;
+      --btn-bg: #eeeeee;
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #121212;
+      --text-color: #ffffff;
+      --btn-bg: #333333;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    button#theme-toggle {
+      background-color: var(--btn-bg);
+      color: var(--text-color);
+      border: 1px solid var(--text-color);
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 20px;
+      font-size: 1rem;
+      font-weight: bold;
+      transition: background-color 0.3s, color 0.3s;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Dark Mode Toggle</h1>
+  <p>Click the button below to change the theme.</p>
+  
+  <button id="theme-toggle" aria-label="Toggle dark mode">
+    <span id="toggle-icon">🌙</span> Change Theme
+  </button>
+
+  <script>
+    const toggleButton = document.getElementById("theme-toggle");
+    const toggleIcon = document.getElementById("toggle-icon");
+
+    const savedTheme = localStorage.getItem("theme");
+    const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    if (savedTheme === "dark" || (!savedTheme && systemPrefersDark)) {
+      document.documentElement.setAttribute("data-theme", "dark");
+      toggleIcon.textContent = "☀️";
+    } else {
+      document.documentElement.setAttribute("data-theme", "light");
+      toggleIcon.textContent = "🌙";
+    }
+
+    toggleButton.addEventListener("click", () => {
+      const currentTheme = document.documentElement.getAttribute("data-theme");
+      let newTheme = "light";
+
+      if (currentTheme === "light") {
+        newTheme = "dark";
+        toggleIcon.textContent = "☀️";
+      } else {
+        toggleIcon.textContent = "🌙";
+      }
+
+      document.documentElement.setAttribute("data-theme", newTheme);
+      localStorage.setItem("theme", newTheme);
+    });
+  </script>
+
+</body>
 </html>
